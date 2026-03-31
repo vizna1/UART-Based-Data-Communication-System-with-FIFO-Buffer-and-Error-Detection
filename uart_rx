@@ -1,0 +1,76 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 31.03.2026 06:17:10
+// Design Name: 
+// Module Name: uart_rx
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+module uart_rx (
+    input clk, rst,
+    input tick,
+    input rx,
+    output reg [7:0] data_out,
+    output reg valid,
+    output reg parity_error
+);
+
+reg [3:0] state, bit_cnt;
+reg [7:0] data;
+reg parity_rx;
+
+localparam IDLE=0, START=1, DATA=2, PARITY=3, STOP=4;
+
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        state <= IDLE;
+        valid <= 0;
+    end else if (tick) begin
+        case(state)
+            IDLE: begin
+                valid <= 0;
+                if (rx == 0)
+                    state <= START;
+            end
+
+            START: begin
+                bit_cnt <= 0;
+                state <= DATA;
+            end
+
+            DATA: begin
+                data[bit_cnt] <= rx;
+                bit_cnt <= bit_cnt + 1;
+                if (bit_cnt == 7)
+                    state <= PARITY;
+            end
+
+            PARITY: begin
+                parity_rx <= rx;
+                state <= STOP;
+            end
+
+            STOP: begin
+                data_out <= data;
+                parity_error <= (parity_rx != ~(^data));
+                valid <= 1;
+                state <= IDLE;
+            end
+        endcase
+    end
+end
+
+endmodule
