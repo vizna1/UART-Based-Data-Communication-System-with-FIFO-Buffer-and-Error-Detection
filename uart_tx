@@ -1,0 +1,81 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 31.03.2026 06:15:34
+// Design Name: 
+// Module Name: uart_tx
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+module uart_tx (
+    input clk, rst,
+    input tick,
+    input [7:0] data_in,
+    input start,
+    output reg tx,
+    output reg busy
+);
+
+reg [3:0] state, bit_cnt;
+reg [7:0] data;
+reg parity;
+
+localparam IDLE=0, START=1, DATA=2, PARITY=3, STOP=4;
+
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        state <= IDLE;
+        tx <= 1;
+        busy <= 0;
+    end else if (tick) begin
+        case(state)
+            IDLE: begin
+                tx <= 1;
+                busy <= 0;
+                if (start) begin
+                    data <= data_in;
+                    parity <= ~(^data_in); // even parity
+                    state <= START;
+                    busy <= 1;
+                end
+            end
+
+            START: begin
+                tx <= 0;
+                bit_cnt <= 0;
+                state <= DATA;
+            end
+
+            DATA: begin
+                tx <= data[bit_cnt];
+                bit_cnt <= bit_cnt + 1;
+                if (bit_cnt == 7)
+                    state <= PARITY;
+            end
+
+            PARITY: begin
+                tx <= parity;
+                state <= STOP;
+            end
+
+            STOP: begin
+                tx <= 1;
+                state <= IDLE;
+            end
+        endcase
+    end
+end
+
+endmodule
