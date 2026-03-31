@@ -1,9 +1,9 @@
-# UART-Based-Data-Communication-System-with-FIFO-Buffer-and-Error-Detection
+
 # UART-Based Data Communication System with FIFO Buffer and Error Detection
 
 ---
 
-## 📌 Overview
+##  Overview
 
 This project implements a **UART-based data communication system** in Verilog, featuring asynchronous serial communication, FIFO buffering, and parity-based error detection.
 
@@ -11,7 +11,7 @@ The design operates at **9600 baud with a 100 MHz clock** and is verified throug
 
 ---
 
-## 🧩 Modules
+##  Modules
 
 1. **uart_top.v**  
    Top-level module integrating transmitter, receiver, FIFO, and baud generator.
@@ -34,7 +34,7 @@ The design operates at **9600 baud with a 100 MHz clock** and is verified throug
 
 ---
 
-## ⚙️ How It Works
+##  How It Works
 
 1. Data is transmitted serially using the UART protocol.  
 2. The transmitter frames data with start, data, parity, and stop bits.  
@@ -45,7 +45,7 @@ The design operates at **9600 baud with a 100 MHz clock** and is verified throug
 
 ---
 
-## 🔢 System Specifications
+##  System Specifications
 
 - Clock Frequency: **100 MHz**  
 - Baud Rate: **9600**  
@@ -55,7 +55,7 @@ The design operates at **9600 baud with a 100 MHz clock** and is verified throug
 
 ---
 
-## 🧪 Simulation
+##  Simulation
 
 Simulation is performed using Xilinx Vivado.
 
@@ -71,18 +71,17 @@ Simulation is performed using Xilinx Vivado.
 
 ---
 
-## 🚀 Usage
+## Usage
 
 1. Open Vivado and create a new RTL project  
 2. Add all Verilog source files  
 3. Set `uart_top.v` as the top module  
 4. Add `tb_uart.v` as simulation source  
 5. Run behavioral simulation  
-6. (Optional) Run synthesis for FPGA implementation  
 
 ---
 
-## 📈 Key Features
+## Key Features
 
 - FSM-based UART transmitter and receiver  
 - FIFO buffering for reliable data handling  
@@ -92,7 +91,7 @@ Simulation is performed using Xilinx Vivado.
 
 ---
 
-## 🎯 Applications
+## Applications
 
 - Serial communication systems  
 - Embedded system interfaces  
@@ -101,17 +100,11 @@ Simulation is performed using Xilinx Vivado.
 
 ---
 
-## 💡 Future Improvements
+## Future Improvements
 
 - Add oversampling (8x/16x) for better noise immunity  
 - Implement framing error detection  
 - Support configurable baud rates  
 - Deploy on FPGA hardware  
-
----
-
-## 📊 Resume Highlight
-
-Designed and implemented a UART-based data communication system in Verilog with FIFO buffering and parity-based error detection, enabling reliable asynchronous data transfer at 9600 baud.
 
 ---
